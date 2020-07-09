@@ -78,9 +78,7 @@ row = html.Div(
 )
 
 
-app.layout = html.Div(children=[
-    row,
-])
+app.layout = html.Div([row])
 
 if __name__ == '__main__':
     app.run_server(debug=True)
