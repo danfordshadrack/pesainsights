@@ -2,17 +2,24 @@ import pandas as pd #(version 0.24.2)
 import datetime as dt
 import dash         #(version 1.0.0)
 import dash_core_components as dcc
-import dash_bootstrap_components as dbc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 from dash.dependencies import Input, Output
 
 import plotly       #(version 4.4.1)
 import plotly.express as px
 
-#external_stylesheets = ['https:///codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+
+
+
+
+external_stylesheets = ['dbc.themes.BOOTSTRAP']
+
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 
@@ -39,12 +46,23 @@ trace17 = go.Bar(x=df['Kiasi'], y=df['Ezy Mingine'], name='Kutoka Ezy Kwenda Mit
 trace18 = go.Bar(x=df['Kiasi'], y=df['Kutoa Ezy'], name='Kutoa Kwa wakala/ATM Ezy')
 
 
-row = html.Div(
+
+
+app.layout = html.Div(children=[
+    nav = dbc.Nav(
     [
-        dbc.Row(
-            [
-                dbc.Col(html.Div(children=[
-                    html.H2(children="PESA INSIGHT",
+        dbc.NavItem(dbc.NavLink("Active", active=True, href="#")),
+        dbc.NavItem(dbc.NavLink("A link", href="#")),
+        dbc.NavItem(dbc.NavLink("Another link", href="#")),
+        dbc.NavItem(dbc.NavLink("Disabled", disabled=True, href="#")),
+        dbc.DropdownMenu(
+            [dbc.DropdownMenuItem("Item 1"), dbc.DropdownMenuItem("Item 2")],
+            label="Dropdown",
+            nav=True,
+        ),
+    ]
+),
+    html.H2(children="PESA INSIGHT",
     style={
         'textAlign': 'center',
     }),
@@ -59,27 +77,13 @@ row = html.Div(
 
 
     dcc.Graph(
-        id='tarrifs1',
+        id='tarrifs',
         figure={
             'data': [trace1,trace2,trace3,trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12,trace13,trace14,trace15,trace16,trace17,trace18],
             'layout': 
             go.Layout(title='Makato kwa Tsh', barmode='group', yaxis_title="Gharama Tsh",xaxis_title="Kiasi Cha Muamala", height=400)
-        },
-    ),
-
-
-                ]), md=12),
-                #dbc.Col(html.Div("One of three columns"), md=3),
-                #dbc.Col(html.Div("One of three columns"), md=4),
-            ]
-        ),
-
-    ]
-)
-
-
-app.layout = html.Div(children=[
-    row,
+        }
+    )
 ])
 
 if __name__ == '__main__':
